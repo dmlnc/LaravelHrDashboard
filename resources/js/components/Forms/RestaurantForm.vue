@@ -26,10 +26,12 @@
             <a-select v-model:value="form.vacancies" mode="multiple" :options="vacancies"></a-select>
           </a-form-item>
          
-          <!-- {{ this.form.vacancies_data }} -->
-          <!-- {{ this.vacancies_data }} -->
+          <!-- {{ this.form.vacancies_data }}<br><br>
+          {{ this.form.vacancies }}<br><br>
+          {{ vacancies_data }} -->
+
           <div class="" v-for="(vacancy, index) in form.vacancies">
-            <p><b>Вакансия: {{ this.form.vacancies_data[vacancy].name }}</b></p>
+            <p><b>Вакансия: {{ this.vacancies_data[vacancy].name }}</b></p>
             <a-form-item class="mb-10" label="Цена за час" name="price_per_hour" :colon="false">
               <a-input-number  style="width: 100%" 
                 v-model:value="this.form.vacancies_data[vacancy].price_per_hour"
@@ -103,15 +105,18 @@ import { notification } from 'ant-design-vue';
     watch:{
       visible(){
         this.visibleForm = this.visible;
-      },
-      id(){
         this.initialId = this.id;
         if(this.id!=null){
           this.loadData(this.id)
         }
         else{
+          this.updateVacancies();
+
           this.loading = false;
         }
+      },
+      id(){
+        
 
       },
     },
@@ -125,6 +130,12 @@ import { notification } from 'ant-design-vue';
 
       resetForm(){
         this.form = {...this.initialForm};
+        this.updateVacancies();
+      },
+
+      updateVacancies(){
+        let formVacanciesData = JSON.parse(JSON.stringify(this.vacancies_data));
+        this.form.vacancies_data = formVacanciesData;
       },
 
       fetchVacancies(){
@@ -152,10 +163,8 @@ import { notification } from 'ant-design-vue';
                 });
 
                 this.vacancies_data = vacanciesData;
-
-                let formVacanciesData = JSON.parse(JSON.stringify(this.vacancies_data));
+                this.updateVacancies();
                 
-                this.form.vacancies_data = formVacanciesData;
 
 
                 // router.push({ name: 'Academy', params: {academy_id: } })
@@ -173,6 +182,8 @@ import { notification } from 'ant-design-vue';
 
 
       loadData(id){
+        
+
         this.loading = true;
         this.$axios.get('/restaurant/'+id)
             .then(response => {
@@ -233,12 +244,14 @@ import { notification } from 'ant-design-vue';
         this.$axios.post(url, formData)
           .then(response => {
             // console.log(response)
-            this.initialId = response.data.data.id;
-            this.loadData(this.initialId);
+            // this.initialId = response.data.data.id;
+            // this.loadData(this.initialId);
             this.$emit('save');
             notification.success({
               message: 'Успешно',
             });
+
+            this.onClose();
 
             // const token = response.data.token;
             // setAuthToken(token);

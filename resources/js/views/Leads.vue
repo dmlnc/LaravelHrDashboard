@@ -58,6 +58,11 @@
                         {{ record.social}}
                     </span>
                 </template>
+                <template v-else-if="column.key === 'created_at'">
+                    <span>
+                        {{ record.created_at}}
+                    </span>
+                </template>
                 
                 <template v-else-if="column.key === 'actions'">
                     <a-space>
@@ -140,6 +145,12 @@ export default ({
                     dataIndex: 'social',
                     key: 'social',
                 },
+                {
+                    title: '',
+                    dataIndex: 'created_at',
+                    key: 'created_at',
+                },
+                
                 {
                     title: '',
                     key: 'actions',

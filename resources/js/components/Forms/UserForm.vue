@@ -75,19 +75,28 @@ export default ({
     },
 
     watch: {
-        visible() {
+        visible(){
             this.visibleForm = this.visible;
-        },
-        id() {
             this.initialId = this.id;
-            if (this.id != null) {
-                this.loadData(this.id)
-            } else {
-
-                this.loading = false;
+            if(this.id!=null){
+            this.loadData(this.id)
             }
+            else{
+            this.loading = false;
+            }
+      },
+      id(){
+        this.initialId = this.id;
+        if(this.id!=null){
+          this.loadData(this.id)
+        }
+        else{
+          this.loading = false;
+        }
 
-        },
+      },
+
+       
     },
 
     mounted() {

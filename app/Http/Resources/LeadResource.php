@@ -31,6 +31,7 @@ class LeadResource extends JsonResource
                 'id' => $this->vacancy ? $this->vacancy->id : null,
                 'name' => $this->vacancy ? $this->vacancy->name : null,
             ],
+            'created_at' => $this->created_at->format('d.m.y H:i'),
         ];
     }
 

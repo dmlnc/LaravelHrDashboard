@@ -25,6 +25,14 @@ class RestaurantApiController extends Controller
         ]);
 
         $restaurant = Restaurant::create($request->all());
+
+        $pivotData = [];
+        foreach ($request['vacancies'] as $vacancyId) {
+            $vacancyData = $request['vacancies_data'][$vacancyId];
+            $pivotData[$vacancyId] = ['price_per_hour' => $vacancyData['price_per_hour']];
+        }
+        $restaurant->vacancies()->sync($pivotData);
+        
         return new RestaurantResource($restaurant);
     }
 

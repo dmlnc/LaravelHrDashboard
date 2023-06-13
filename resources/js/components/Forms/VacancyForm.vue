@@ -136,19 +136,25 @@ export default ({
 
   watch:{
     visible(){
-      this.visibleForm = this.visible;
-      this.resetForm()
+        this.visibleForm = this.visible;
+        this.initialId = this.id;
+        if(this.id!=null){
+          this.loadData(this.id)
+        }
+        else{
+          this.loading = false;
+        }
+      },
+      id(){
+        this.initialId = this.id;
+        if(this.id!=null){
+          this.loadData(this.id)
+        }
+        else{
+          this.loading = false;
+        }
 
-    },
-    id(){
-      this.initialId = this.id;
-      if(this.id!=null){
-        this.loadData(this.id)
-      }
-      else{
-        this.loading = false;
-      }
-    },
+      },
   },
 
   mounted(){
